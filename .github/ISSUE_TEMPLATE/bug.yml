@@ -1,0 +1,50 @@
+name: Fehler melden
+description: Etwas funktioniert in der Web-App oder im Agent nicht wie erwartet.
+title: "[Bug] "
+labels: ["bug", "beta"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke fürs Melden! Du kannst Fehler auch direkt über den **Bug-Report-Button** in der Web-App schicken.
+        Entferne Passwörter, Tokens und andere Geheimnisse aus Logs und Screenshots.
+  - type: textarea
+    id: beschreibung
+    attributes:
+      label: Was ist passiert?
+    validations:
+      required: true
+  - type: textarea
+    id: schritte
+    attributes:
+      label: Schritte zum Nachstellen
+      placeholder: |
+        1. Agent-Detail öffnen
+        2. Unter „Script execution“ … ausführen
+        3. …
+    validations:
+      required: true
+  - type: textarea
+    id: erwartet
+    attributes:
+      label: Was hast du erwartet?
+  - type: dropdown
+    id: bereich
+    attributes:
+      label: Bereich
+      options:
+        - Web-App
+        - Agent
+        - Beides / weiß nicht
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Screenshots
+      description: z. B. `docker compose logs nodeguard` oder `journalctl -u <agent-dienst>`.
+  - type: input
+    id: version
+    attributes:
+      label: NodeGuard-Version
+      description: Server-Version und, falls bekannt, Agent-Version.

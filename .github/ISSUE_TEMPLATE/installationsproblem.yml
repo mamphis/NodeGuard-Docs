@@ -1,0 +1,52 @@
+name: Installationsproblem
+description: Server oder Agent lässt sich nach dem Quick Start nicht einrichten.
+title: "[Installation] "
+labels: ["installation", "beta"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke fürs Testen! Bitte prüfe vorher die Tabelle **Häufige Probleme** im [Quick Start](https://github.com/mamphis/NodeGuard-Docs/blob/master/quick-start.md#häufige-probleme).
+        Entferne Passwörter, Invite-Codes und andere Geheimnisse aus Logs, bevor du sie hier einfügst.
+  - type: dropdown
+    id: schritt
+    attributes:
+      label: Bei welchem Schritt hakt es?
+      options:
+        - 1. Server starten (Docker Compose)
+        - 2. Administrator anlegen
+        - 3. Agent-Paket bereitstellen
+        - 4. Ersten Agent installieren
+        - 5. Ausprobieren
+        - Update
+        - Anderer Schritt
+    validations:
+      required: true
+  - type: textarea
+    id: beschreibung
+    attributes:
+      label: Was ist passiert?
+      description: Was hast du ausgeführt, und was hast du stattdessen erwartet?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Fehlermeldung / Logs
+      description: z. B. Ausgabe von `docker compose logs nodeguard` oder des Installationsskripts.
+      render: shell
+  - type: input
+    id: version
+    attributes:
+      label: NodeGuard-Version
+      description: Wert von `NODEGUARD_VERSION` in der `.env` (oder `latest`).
+  - type: input
+    id: host
+    attributes:
+      label: Docker-Host
+      description: Betriebssystem und Ausgabe von `docker compose version`.
+  - type: input
+    id: agent-os
+    attributes:
+      label: Zielrechner (Agent)
+      description: Distribution und Version, z. B. Debian 12, Ubuntu 24.04.

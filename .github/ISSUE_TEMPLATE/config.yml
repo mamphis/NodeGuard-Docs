@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Quick Start
+    url: https://github.com/mamphis/NodeGuard-Docs/blob/master/quick-start.md
+    about: Installation und häufige Probleme – bitte vor dem Melden einmal reinschauen.
