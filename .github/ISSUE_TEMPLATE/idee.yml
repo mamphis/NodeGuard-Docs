@@ -1,0 +1,23 @@
+name: Idee / Wunsch
+description: Schlage eine neue Funktion oder Verbesserung vor.
+title: "[Idee] "
+labels: ["enhancement", "beta"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Welches Problem möchtest du lösen?
+      description: Beschreibe kurz die Situation in deinem Heimnetz.
+    validations:
+      required: true
+  - type: textarea
+    id: vorschlag
+    attributes:
+      label: Wie stellst du dir die Lösung vor?
+    validations:
+      required: true
+  - type: textarea
+    id: alternativen
+    attributes:
+      label: Wie löst du es heute?
+      description: Workarounds oder andere Tools, die du dafür nutzt.
