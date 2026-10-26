@@ -60,6 +60,7 @@ services:
       DATABASE_URL: "postgresql://${DB_USER:-nodeguard}:${DB_PASSWORD:?DB_PASSWORD in der .env setzen}@db:5432/${DB_DATABASE:-nodeguard}"
       DATA_BASE_DIR: "/app/data"
       CDN_URL: "https://cdn-uem.backend.pcsmw.de"
+      TELEMETRY_ENABLED: "true"
       # SESSION_SECRET: "change-me-to-a-long-random-string"
       # SESSION_COOKIE_SECURE: "auto"
       # Optional: Single Sign-on per OIDC (alternativ in der Web-App einrichten), siehe oidc.md
@@ -86,6 +87,22 @@ NODEGUARD_VERSION=latest
 ```
 
 </details>
+
+### Telemetrie
+
+Die Beispiel-Compose schaltet Telemetrie ein. Der Server schickt dann automatisch Diagnosedaten an den CDN (`https://cdn-uem.backend.pcsmw.de/telemetry`), damit Fehler und Performance-Probleme schneller gefunden werden:
+
+- **Langsame Datenbankabfragen:** SQL-Statement, Anzahl der Zeilen und Dauer
+- **Anwendungsfehler:** Fehlermeldung und Stacktrace
+
+Jede Meldung enthält zusätzlich die zufällige Instanz-ID deines Servers (aus `ng_data/instance.json`).
+
+| Variable | Standard | Bedeutung |
+| --- | --- | --- |
+| `TELEMETRY_ENABLED` | nicht gesetzt (aus) | Jeder nicht-leere Wert schaltet die Telemetrie ein, z. B. `"true"`. Achtung: auch `"false"` oder `"0"` schalten sie ein. |
+| `CDN_URL` | – | Ziel der Telemetrie (und Quelle der Agent-Pakete). Auf `https://cdn-uem.backend.pcsmw.de` lassen. |
+
+Telemetrie abschalten: die Zeile `TELEMETRY_ENABLED` aus der `docker-compose.yml` löschen (oder den Wert leer lassen, `TELEMETRY_ENABLED: ""`) und `docker compose up -d` ausführen. Der Bug-Report-Button funktioniert unabhängig davon weiter.
 
 ## 2. Administrator anlegen
 
@@ -163,4 +180,4 @@ docker compose pull && docker compose up -d
 
 ## Feedback
 
-Etwas klemmt oder fehlt? Über den **Bug-Report-Button** in der Web-App melden oder hier ein [Issue](https://github.com/mamphis/NodeGuard-Docs/issues) eröffnen. Bug-Reports werden nur gesendet, wenn du sie aktiv abschickst.
+Etwas klemmt oder fehlt? Über den **Bug-Report-Button** in der Web-App melden oder hier ein [Issue](https://github.com/mamphis/NodeGuard-Docs/issues) eröffnen. Bug-Reports werden nur gesendet, wenn du sie aktiv abschickst. Automatisch gesendete Diagnosedaten sind unter [Telemetrie](#telemetrie) beschrieben.
