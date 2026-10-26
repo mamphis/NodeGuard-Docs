@@ -20,4 +20,5 @@ Verwalte die Server in deinem Heimnetz zentral über eine Web-App: Status und Ha
 ## Loslegen
 
 - **[Quick Start](quick-start.md)** – Server per Docker Compose starten und den ersten Agent einbinden
+- **[Anmeldung per OIDC](oidc.md)** – Single Sign-on mit Authentik, Keycloak, Authelia & Co. einrichten
 - [`docker/docker-compose.yml`](docker/docker-compose.yml) und [`docker/.env.example`](docker/.env.example) – Beispiel-Setup
