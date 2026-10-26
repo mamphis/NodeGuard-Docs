@@ -35,6 +35,14 @@ services:
       # Optional: Secure-Flag des Session-Cookies (auto | true | false).
       # Reines HTTP funktioniert mit dem Standard "auto".
       # SESSION_COOKIE_SECURE: "auto"
+
+      # Optional: Single Sign-on per OIDC. Lässt sich auch in der Web-App einrichten
+      # (Ersteinrichtung oder Settings → Sign-in). Alle Variablen: ../oidc.md
+      # OIDC_ISSUER: "https://auth.example.com/application/o/nodeguard/"
+      # OIDC_CLIENT_ID: "nodeguard"
+      # OIDC_CLIENT_SECRET: "change-me"
+      # OIDC_DISPLAY_NAME: "Authentik"
+      # OIDC_ALLOWED_GROUPS: "nodeguard-admins"
     volumes:
       # Enthält u. a. den CA-Schlüssel für Agent-Zertifikate – unbedingt sichern!
       - ./ng_data:/app/data

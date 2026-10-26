@@ -62,6 +62,10 @@ services:
       CDN_URL: "https://cdn-uem.backend.pcsmw.de"
       # SESSION_SECRET: "change-me-to-a-long-random-string"
       # SESSION_COOKIE_SECURE: "auto"
+      # Optional: Single Sign-on per OIDC (alternativ in der Web-App einrichten), siehe oidc.md
+      # OIDC_ISSUER: "https://auth.example.com/application/o/nodeguard/"
+      # OIDC_CLIENT_ID: "nodeguard"
+      # OIDC_CLIENT_SECRET: "…"
     volumes:
       - ./ng_data:/app/data
     ports:
@@ -87,6 +91,7 @@ NODEGUARD_VERSION=latest
 
 1. `http://<server-adresse>` im Browser öffnen.
 2. Die **Ersteinrichtung** erscheint automatisch – Administratorkonto mit eigenem Passwort anlegen.
+   Alternativ im Reiter **Single sign-on** einen OIDC-Provider (z. B. Authentik, Keycloak) eintragen und sich dort anmelden – siehe [Anmeldung per OIDC](oidc.md).
 3. Anmelden.
 
 Reines HTTP im Heimnetz funktioniert ohne Zertifikat.
@@ -143,6 +148,7 @@ docker compose pull && docker compose up -d
 | Keine Versionen in **Download Files** | Docker-Host erreicht den CDN nicht: `curl https://cdn-uem.backend.pcsmw.de/versions` |
 | Agent bleibt offline | Server-URL vom Zielrechner aus nicht erreichbar (Firewall, Port, `localhost`). |
 | Passwort vergessen | `docker compose exec nodeguard reset-password`, danach Ersteinrichtung erneut. |
+| Probleme mit Single Sign-on | Siehe [Fehlerbehebung OIDC](oidc.md#5-fehlerbehebung). |
 
 ## Feedback
 
