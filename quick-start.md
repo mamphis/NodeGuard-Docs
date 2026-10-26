@@ -95,14 +95,14 @@ Reines HTTP im Heimnetz funktioniert ohne Zertifikat.
 
 Das Installationsskript lädt den Agent vom NodeGuard-Server, deshalb muss dort zuerst ein Paket liegen.
 
-1. **Settings → Download Files** öffnen. Kurz nach dem Start erscheinen die Versionen aus dem CDN (sonst Aktualisieren klicken).
+1. **Settings → Downloads** öffnen. Im Bereich **Download Files** erscheinen kurz nach dem Start die Versionen aus dem CDN (sonst auf das Aktualisieren-Symbol klicken).
 2. Bei der **neuesten Version** auf Download klicken. Danach steht eine Prüfsumme in der Tabelle.
 
-> Immer die neueste Version herunterladen – das Skript nimmt den zuletzt angelegten Eintrag.
+> Das Installationsskript nimmt die höchste Version, die auf dem Server heruntergeladen ist. Lade deshalb die neueste Version herunter, damit neue Agents gleich aktuell sind.
 
 ## 4. Ersten Agent installieren
 
-1. **Settings → Agent invites** → Label vergeben (z. B. `Homelab`) → **Create invite**.
+1. **Settings → Agents** öffnen, im Bereich **Agent invites** ein Label vergeben (z. B. `Homelab`) → **Create invite**.
 2. **Get command** klicken und prüfen, dass unter **Server URL** die Adresse steht, unter der der Zielrechner den Server erreicht (nicht `localhost`).
 3. Den Befehl auf dem Zielrechner als root bzw. mit `sudo` ausführen:
 
@@ -112,7 +112,7 @@ Das Installationsskript lädt den Agent vom NodeGuard-Server, deshalb muss dort 
    ```
 
    Die Ausgabe endet mit `NodeGuard Agent installation complete.`
-4. In der Web-App **Settings → Approval queue** → **Approve**.
+4. In der Web-App unter **Settings → Agents → Approval queue** auf **Approve** klicken.
 
 Der Agent erscheint jetzt unter **Connected agents** und ist innerhalb einer Minute online.
 
@@ -120,7 +120,16 @@ Der Agent erscheint jetzt unter **Connected agents** und ist innerhalb einer Min
 
 - Im Agent-Detail unter **Hardware** CPU, RAM und Laufwerke ansehen.
 - Unter **Script execution** ein kurzes Bash-Skript ausführen, z. B. `uptime`.
-- In der **Script library** ein Skript anlegen und als Cron-**Schedule** auf einen Tag planen.
+- Tags unter **Settings → Tags** anlegen (Name und Farbe) und in **Agents** über **Assign Tag** zuweisen. Die Agent-Liste lässt sich nach Tags, Betriebssystem, Version und Status filtern.
+- Unter **Automation → Script library** ein Skript anlegen und unter **Automation → Schedules** mit **New schedule** per Cron auf einen Tag oder einzelne Agents planen. Ergebnisse stehen unter **Automation → Script runs**.
+
+Gut zu wissen:
+
+- Ein Skript läuft standardmäßig höchstens **60 Minuten**. Danach beendet der Agent es samt aller gestarteten Prozesse und meldet es als fehlgeschlagen (Exit-Code `-1`).
+- Von der Ausgabe werden je Stream (stdout und stderr) höchstens **1 MB** gespeichert, der Rest wird verworfen und als gekürzt markiert.
+- Ein Skript aus der Script library lässt sich erst löschen, wenn kein Zeitplan es mehr verwendet. Die bisherigen Script runs bleiben erhalten.
+- Wird ein Tag gelöscht, verschwindet er auch aus den Zeitplänen. Zeitpläne ohne verbleibendes Ziel werden deaktiviert.
+- Die Web-App ist auch auf dem Smartphone bedienbar, Tabellen werden dort als Karten angezeigt.
 
 ## Wichtig: Backup
 
@@ -139,9 +148,11 @@ docker compose pull && docker compose up -d
 | --- | --- |
 | `DB_PASSWORD in der .env setzen` | `DB_PASSWORD` in der `.env` eintragen. |
 | `curl: (22) … 404` beim Installieren | Noch kein Agent-Paket heruntergeladen → Schritt 3. |
-| Agent registriert, aber nicht sichtbar | Noch nicht freigegeben → **Approval queue**. |
-| Keine Versionen in **Download Files** | Docker-Host erreicht den CDN nicht: `curl https://cdn-uem.backend.pcsmw.de/versions` |
+| Agent registriert, aber nicht sichtbar | Noch nicht freigegeben → **Settings → Agents → Approval queue**. |
+| Keine Versionen unter **Settings → Downloads** | Docker-Host erreicht den CDN nicht: `curl https://cdn-uem.backend.pcsmw.de/versions` |
 | Agent bleibt offline | Server-URL vom Zielrechner aus nicht erreichbar (Firewall, Port, `localhost`). |
+| Skript bricht nach 60 Minuten ab | Maximale Laufzeit erreicht. Lange Aufgaben aufteilen oder im Hintergrund (z. B. als systemd-Dienst) starten. |
+| Skript lässt sich nicht löschen | Es wird noch von einem Zeitplan verwendet. Zeitplan unter **Automation → Schedules** löschen oder auf ein anderes Skript umstellen. |
 | Passwort vergessen | `docker compose exec nodeguard reset-password`, danach Ersteinrichtung erneut. |
 
 ## Feedback
