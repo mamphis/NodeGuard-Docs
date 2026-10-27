@@ -19,7 +19,7 @@ In etwa 10 Minuten von null zum ersten verwalteten Server: NodeGuard per Docker 
 ## 1. Server starten
 
 ```bash
-mkdir -p /opt/nodeguard && cd /opt/nodeguard
+mkdir -p /opt/nodeguard/pg_data /opt/nodeguard/ng_data && cd /opt/nodeguard
 
 curl -fsSLO https://raw.githubusercontent.com/mamphis/NodeGuard-Docs/master/docker/docker-compose.yml
 curl -fsSL  https://raw.githubusercontent.com/mamphis/NodeGuard-Docs/master/docker/.env.example -o .env
