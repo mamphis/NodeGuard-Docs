@@ -8,7 +8,7 @@ In etwa 10 Minuten von null zum ersten verwalteten Server: NodeGuard per Docker 
 
 - Docker mit Compose-Plugin (`docker compose version`)
 - Freier Port für die Web-App (Standard `80`)
-- Ausgehender HTTPS-Zugriff auf `https://cdn-uem.backend.pcsmw.de` (dort liegen die Agent-Pakete)
+- Ausgehender HTTPS-Zugriff auf `https://cdn-uem.backend.pcsmw.de` (dort liegen die Agent-Pakete, dorthin gehen Bug-Reports und Telemetrie)
 
 **Zielrechner (Agent)**
 
@@ -60,6 +60,8 @@ services:
       DATABASE_URL: "postgresql://${DB_USER:-nodeguard}:${DB_PASSWORD:?DB_PASSWORD in der .env setzen}@db:5432/${DB_DATABASE:-nodeguard}"
       DATA_BASE_DIR: "/app/data"
       CDN_URL: "https://cdn-uem.backend.pcsmw.de"
+      # Telemetrie an den CDN, zum Abschalten "false" – siehe Abschnitt Telemetrie
+      TELEMETRY_ENABLED: "true"
       # SESSION_SECRET: "change-me-to-a-long-random-string"
       # SESSION_COOKIE_SECURE: "auto"
       # Optional: Single Sign-on per OIDC (alternativ in der Web-App einrichten), siehe oidc.md
@@ -135,6 +137,22 @@ Gut zu wissen:
 - Ein Skript aus der Script library lässt sich erst löschen, wenn kein Zeitplan es mehr verwendet. Die bisherigen Script runs bleiben erhalten.
 - Wird ein Tag gelöscht, verschwindet er auch aus den Zeitplänen. Zeitpläne ohne verbleibendes Ziel werden deaktiviert.
 - Die Web-App ist auch auf dem Smartphone bedienbar, Tabellen werden dort als Karten angezeigt.
+
+## Telemetrie
+
+Die mitgelieferte `docker-compose.yml` schaltet Telemetrie ein. Der Server meldet dann an `https://cdn-uem.backend.pcsmw.de/telemetry`:
+
+- **Langsame Datenbankabfragen** (ab 1 Sekunde) – SQL-Statement (ohne Parameterwerte), Anzahl der Zeilen und Dauer.
+- **Serverfehler** (HTTP 5xx) – Fehlermeldung und Stacktrace.
+
+Jede Meldung trägt die anonyme Instanz-ID aus `ng_data/instance.json` und die Serverversion. Benutzer-, Agent- oder Inventardaten werden nicht gesendet.
+
+| Variable | Bedeutung |
+|---|---|
+| `TELEMETRY_ENABLED` | `true` (bzw. `1`, `yes`, `on`) schaltet Telemetrie ein. Fehlt die Variable oder steht sie auf `false`, wird nichts gesendet. |
+| `CDN_URL` | Ziel für Telemetrie, Bug-Reports und Agent-Pakete. Auf `https://cdn-uem.backend.pcsmw.de` lassen. |
+
+Abschalten: in der `docker-compose.yml` `TELEMETRY_ENABLED: "false"` setzen und `docker compose up -d` ausführen.
 
 ## Wichtig: Backup
 

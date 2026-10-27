@@ -27,8 +27,11 @@ services:
 
       # Öffentlicher CDN für Agent-Pakete – nicht ändern.
       CDN_URL: "https://cdn-uem.backend.pcsmw.de"
+
+      # Telemetrie: meldet langsame Datenbankabfragen und Serverfehler an den CDN.
+      # Zum Abschalten auf "false" setzen. Details: ../quick-start.md#telemetrie
       TELEMETRY_ENABLED: "true"
-      
+
       # Optional: eigenes Session-Secret (mind. 32 Zeichen).
       # Ohne Angabe wird eines erzeugt und in /app/data gespeichert.
       # SESSION_SECRET: "change-me-to-a-long-random-string"
