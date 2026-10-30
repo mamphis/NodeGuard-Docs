@@ -219,16 +219,6 @@ The agent runs on each endpoint as a service.
 - **Script limits:** `Scripts:TimeoutMinutes` (default 60) and `Scripts:MaxOutputKilobytes` (default 1024).
 - **Package:** shipped as a self-contained single file for `linux-x64`. No .NET runtime is required on the endpoint.
 
-## 13. CDN
-
-The CDN serves agent update packages and receives telemetry.
-
-- `GET /versions` and `GET /:version` serve agent packages.
-- `POST /telemetry` receives telemetry events. Limited to 60 events per instance and minute.
-- `POST /telemetry/bug-reports` receives bug reports.
-- **Admin area** at `/admin`, password protected. Upload agent versions, view telemetry and bug reports. Disabled unless `ADMIN_PASSWORD` is set.
-- **Notifications** for new bug reports: generic webhook, Discord, and ntfy. Configured with `NOTIFY_*` variables.
-
 ## Not supported yet
 
 - Windows agents (planned, see the roadmap)
