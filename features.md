@@ -2,8 +2,6 @@
 
 NodeGuard is a self-hosted web app for managing the servers in your home network from one place. This page describes every feature of the web app, the agent and the CDN.
 
-Screenshots are marked with `![…](images/…)`. The list of required screenshots, by page, is in [screenshots.md](screenshots.md).
-
 ## Contents
 
 1. [Sign-in and setup](#1-sign-in-and-setup)
@@ -71,8 +69,6 @@ The dashboard gives an overview of the whole fleet:
 
 ![Agent invites](images/invites.png)
 
-![Approval queue](images/approval-queue.png)
-
 ## 4. Agent details
 
 Each agent has its own page with these sections:
@@ -93,8 +89,6 @@ Each agent has its own page with these sections:
 
 ![Agent details: actions](images/agent-detail-actions.png)
 
-![Agent details: users](images/agent-detail-users.png)
-
 ![Agent details: logs](images/agent-detail-logs.png)
 
 ![Agent details: file manager](images/agent-detail-files.png)
@@ -112,8 +106,6 @@ Each agent has its own page with these sections:
 - The execution overview shows the results (status, output, exit code) of all targeted agents on one page.
 
 ![Script library](images/script-library.png)
-
-![Execution overview](images/script-execution-overview.png)
 
 ### Schedules
 
@@ -158,8 +150,6 @@ Configured under **Settings → Notifications**.
 - Webhooks can send NodeGuard JSON with an optional HMAC signature, or formats for Slack, Mattermost, Discord and ntfy.
 - Each channel has a minimum severity and a test button.
 - A background job checks the rules every 60 seconds and sends messages for new, escalated and resolved alerts. Reminders are optional.
-
-![Notification channels](images/notifications.png)
 
 ## 7. Agent updates
 
@@ -212,8 +202,6 @@ Each entry stores user, IP address, target and details. Secrets are redacted and
 - **Bug report button:** a floating button on every page opens a form with title, optional name and description. The form includes the current page and the last 5 visited pages. Reports are only sent when you submit them.
 - **Telemetry:** with `TELEMETRY_ENABLED=true`, the server reports slow database queries (over 1 second) and server errors (HTTP 5xx) to the CDN, together with its instance ID and server version. It is off unless enabled. The shipped Docker Compose files enable it.
 
-![Bug report form](images/bug-report.png)
-
 ## 12. Agent
 
 The agent runs on each endpoint as a service.
@@ -230,18 +218,6 @@ The agent runs on each endpoint as a service.
 - **Watchdog:** each worker reports a heartbeat. If a worker stalls, the service restarts. Configurable with `Watchdog:*` settings in `appsettings.json`.
 - **Script limits:** `Scripts:TimeoutMinutes` (default 60) and `Scripts:MaxOutputKilobytes` (default 1024).
 - **Package:** shipped as a self-contained single file for `linux-x64`. No .NET runtime is required on the endpoint.
-
-## 13. CDN
-
-The CDN serves agent update packages and receives telemetry.
-
-- `GET /versions` and `GET /:version` serve agent packages.
-- `POST /telemetry` receives telemetry events. Limited to 60 events per instance and minute.
-- `POST /telemetry/bug-reports` receives bug reports.
-- **Admin area** at `/admin`, password protected. Upload agent versions, view telemetry and bug reports. Disabled unless `ADMIN_PASSWORD` is set.
-- **Notifications** for new bug reports: generic webhook, Discord, and ntfy. Configured with `NOTIFY_*` variables.
-
-![CDN admin area](images/cdn-admin.png)
 
 ## Not supported yet
 
